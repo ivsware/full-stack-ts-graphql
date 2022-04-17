@@ -1,11 +1,11 @@
 import * as chalk from 'chalk';
 import * as express from 'express';
+import { createServer } from 'http';
 import { watchClientBuild } from './build-client';
 import { DB_FILE_PATH, PORT, STATIC_ROOT_FOLDER_PATH } from './constants';
 import Db from './db';
 import { seedDb } from './seed';
-
-const app = express();
+import { createApolloServer } from './apollo-server';
 
 async function main() {
   console.log(
@@ -19,14 +19,20 @@ async function main() {
   await db.initDefaults();
   await seedDb(db);
 
+  const app = express();
   app.use('/static', express.static(STATIC_ROOT_FOLDER_PATH));
+
+  const httpServer = createServer(app);
+  const apolloServer = await createApolloServer(db, httpServer, app);
 
   await new Promise<void>((resolve) =>
     app.listen(PORT, () => {
       console.log(
         [
           chalk.bgMagentaBright.black.bold(' GraphQL API listening on   '),
-          chalk.bgWhite.black(`\thttp://localhost:${PORT}${''}\t`),
+          chalk.bgWhite.black(
+            `\thttp://localhost:${PORT}${apolloServer.graphqlPath}\t`
+          ),
         ].join(' ')
       );
       resolve();

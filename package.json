@@ -2,7 +2,7 @@
   "name": "full-stack-ts",
   "version": "0.0.0",
   "description": "Mike North's Full Stack TypeScript course",
-  "repository": "https://github.com/mike-north/full-stack-ts",
+  "repository": "https://github.com/ivsware/full-stack-ts-graphql",
   "author": "Mike North <michael.l.north@gmail.com> (https://mike.works)",
   "license": "NOLICENSE",
   "private": true,
@@ -44,10 +44,10 @@
     "process": "^0.11.10"
   },
   "engines": {
-    "node": "^14.19.1 || >= ^16.0 || >= ^17.0.0"
+    "node": ">=16.14.0"
   },
   "volta": {
-    "node": "14.19.1",
+    "node": "16.14.2",
     "yarn": "1.22.18"
   }
 }
